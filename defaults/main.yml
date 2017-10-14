@@ -1,0 +1,11 @@
+# defaults file for ubuntu-1604-mariadb-server
+---
+ubuntu_1604_mariadb_server_certificates_present: {}
+
+ubuntu_1604_mariadb_server_certificates_absent: []
+
+ubuntu_1604_mariadb_server_configuration_files_present: {}
+
+ubuntu_1604_mariadb_server_configuration_files_absent: []
+
+ubuntu_1604_mariadb_server_limits_no_files: 65535

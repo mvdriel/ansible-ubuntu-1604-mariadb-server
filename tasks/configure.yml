@@ -1,0 +1,36 @@
+# tasks file for ubuntu-1604-mariadb-server
+---
+- name: configure | create certificate directory
+  file:
+    path: /etc/mysql/ssl
+    state: directory
+  when: "{{ ubuntu_1604_mariadb_server_certificates_present | length > 0 }}"
+
+- name: configure | delete certificate files
+  file:
+    path: "/etc/mysql/ssl/{{ item }}.pem"
+    state: absent
+  with_items: "{{ ubuntu_1604_mariadb_server_certificates_absent }}"
+  notify: restart mariadb-server
+
+- name: configure | copy certificate files
+  copy:
+    src: "{{ item.value }}"
+    dest: "/etc/mysql/ssl/{{ item.key }}.pem"
+    # mode: 0640
+  with_dict: "{{ ubuntu_1604_mariadb_server_certificates_present }}"
+  notify: restart mariadb-server
+
+- name: configure | delete (additional) configuration files
+  file:
+    path: "/etc/mysql/mariadb.conf.d/{{ item }}.cnf"
+    state: absent
+  with_items: "{{ ubuntu_1604_mariadb_server_configuration_files_absent }}"
+  notify: restart mariadb-server
+
+- name: configure | copy (additional) configuration files
+  template:
+    src: "{{ item.value }}"
+    dest: "/etc/mysql/mariadb.conf.d/{{ item.key }}.cnf"
+  with_dict: "{{ ubuntu_1604_mariadb_server_configuration_files_present }}"
+  notify: restart mariadb-server
