@@ -4,7 +4,7 @@
   file:
     path: /etc/mysql/ssl
     state: directory
-  when: "{{ ubuntu_1604_mariadb_server_certificates_present | length > 0 }}"
+  when: "ubuntu_1604_mariadb_server_certificates_present | length > 0"
 
 - name: configure | delete certificate files
   file:
