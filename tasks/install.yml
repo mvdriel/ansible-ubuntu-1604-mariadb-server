@@ -4,3 +4,8 @@
   apt:
     name: "{{ item }}"
   with_items: "{{ ubuntu_1604_mariadb_server_dependencies }}"
+
+- name: install | dependencies | check service
+  service:
+    name: mysql
+    state: started
