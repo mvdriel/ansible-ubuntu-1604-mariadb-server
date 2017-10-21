@@ -4,6 +4,7 @@
   file:
     path: /etc/mysql/ssl
     state: directory
+    mode: 0700
   when: "ubuntu_1604_mariadb_server_certificates_present | length > 0"
 
 - name: configure | delete certificate files
@@ -17,7 +18,7 @@
   copy:
     src: "{{ item.value }}"
     dest: "/etc/mysql/ssl/{{ item.key }}.pem"
-    # mode: 0640
+    mode: 0600
   with_dict: "{{ ubuntu_1604_mariadb_server_certificates_present }}"
   notify: restart mariadb-server
 
