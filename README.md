@@ -20,7 +20,7 @@ Set up a MariaDB server on Ubuntu 16.04.
 ---
 - hosts: all
   roles:
-    - percona-server
+    - ubuntu-1604-mariadb-server
   vars:
     ubuntu_1604_mariadb_server_root_password: 'this-is-a-test-password'
 ```
