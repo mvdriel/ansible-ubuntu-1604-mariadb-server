@@ -1,5 +1,18 @@
 # tasks file for ubuntu-1604-mariadb-server
 ---
+- name: configure | set root password
+  command: >
+    mysql \
+      --database=mysql \
+      -e "UPDATE `user` SET `password` = PASSWORD('{{ ubuntu_1604_mariadb_server_root_password }}') WHERE `user` = 'root'; SELECT ROW_COUNT();" \
+      --skip-column-names
+  register: rows_affected
+  changed_when: "rows_affected.stdout != '0'"
+
+- name: configure | set root password | flush privileges
+  command: mysql --database=mysql -e "FLUSH PRIVILEGES;"
+  when: "rows_affected.stdout != '0'"
+
 - name: configure | create certificate directory
   file:
     path: /etc/mysql/ssl
